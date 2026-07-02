@@ -1,0 +1,6 @@
+Number of credible sets: 1
+
+Credible Set 1:
+               SNPID  CHR       POS EA NEA      BETA             P       pip
+197  20:42758834:T:C   20  42758834  T   C -1.432007  7.909780e-15  0.998937
+

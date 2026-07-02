@@ -1,0 +1,2 @@
+/tmp/tmpwwknvpoz: line 3: nextflow: command not found
+ERROR conda.cli.main_run:execute(148): `conda run nextflow run finemapping_susie.nf -resume --sumstats /home/sagemaker-user/GWASTutorial/12_fine_mapping/1kgeas.B1.glm.firth --genotype_prefix /home/sagemaker-user/GWASTutorial/01_Dataset/1KG.EAS.auto.snp.norm.nodup.split.rare002.common015.missing --outdir finemapping_results --sig_threshold 5e-08 --window_size 500000 --coverage 0.95 --min_abs_corr 0.5 --L 1` failed. (See above for error)

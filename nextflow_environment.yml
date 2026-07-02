@@ -1,0 +1,49 @@
+name: nextflow-env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # Core workflow engine
+  - nextflow>=22.0
+  - openjdk  # Required by Nextflow
+
+  # Common bioinformatics tools
+  - plink
+  - plink2
+  - bcftools
+  - samtools
+  - bedtools
+
+  # Python stack
+  - python=3.12
+  - pip
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - scipy
+
+  # R stack
+  - r-base>=4.0
+  - r-essentials
+  - rpy2
+
+  # Jupyter for notebook execution
+  - jupyter
+  - ipykernel
+  - notebook
+
+  # Utilities
+  - awscli  # For S3 access
+  - curl
+  - wget
+
+  # Project-specific packages can be added as needed
+  # Examples below (uncomment if needed):
+  # - gwaslab      # For GWAS analysis
+  # - r-susier     # For fine-mapping
+  # - r-tidyverse  # For R data manipulation
+  # - bwa          # For sequence alignment
+  # - vcftools     # For VCF manipulation

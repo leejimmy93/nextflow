@@ -1,0 +1,17 @@
+nextflow.trace/v2
+realtime=5650
+%cpu=1656
+cpu_model=Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+rchar=83752986
+wchar=449234
+syscr=12222
+syscw=68
+read_bytes=0
+write_bytes=462848
+%mem=15
+vmem=2762208
+rss=492548
+peak_vmem=2831672
+peak_rss=561176
+vol_ctxt=22
+inv_ctxt=65

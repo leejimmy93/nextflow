@@ -1,0 +1,27 @@
+PLINK v1.9.0-b.8 64-bit (22 Oct 2024)
+Options in effect:
+  --bfile /home/sagemaker-user/GWASTutorial/01_Dataset/1KG.EAS.auto.snp.norm.nodup.split.rare002.common015.missing
+  --extract locus_2_55513738.snplist
+  --keep-allele-order
+  --out locus_2_55513738
+  --r square
+
+Hostname: default
+Working directory: /home/sagemaker-user/nextflow/work/54/93d0df9dfc44ebe50870d95876c221
+Start time: Tue Jun 30 18:23:30 2026
+
+Random number seed: 1782843810
+31720 MB RAM detected; reserving 15860 MB for main workspace.
+1235116 variants loaded from .bim file.
+504 people (0 males, 0 females, 504 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to locus_2_55513738.nosex .
+--extract: 379 variants remaining.
+Using up to 8 threads (change this with --threads).
+Before main variant filters, 504 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.992472.
+379 variants and 504 people pass filters and QC.
+Note: No phenotypes present.
+--r square to locus_2_55513738.ld ... done.
+
+End time: Tue Jun 30 18:23:31 2026

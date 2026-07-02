@@ -1,0 +1,20 @@
+2026/06/30 18:23:30 Start to filter variants by condition... ...(v4.1.9)
+2026/06/30 18:23:30  -Current Dataframe shape : 907939 x 18 ; Memory usage: 101.31 MB
+2026/06/30 18:23:30  -Expression: CHR==7 & POS>133868632 & POS<134868632
+2026/06/30 18:23:30  -Filtered out variants: 907582
+2026/06/30 18:23:30  -Current Dataframe shape : 357 x 18 ; Memory usage: 0.04 MB
+2026/06/30 18:23:30 Finished filtering variants.
+2026/06/30 18:23:30 Start filling data using existing columns...v4.1.9
+2026/06/30 18:23:30  -Column  : SNPID  CHR   POS   EA       NEA      STATUS REF      ALT      EAF     SE      OR      Z       P       N     TEST   PROVISIONAL_REF? OMITTED ERRCODE
+2026/06/30 18:23:30  -DType   : object Int64 int64 category category int64  category category float64 float64 float64 float64 float64 int64 object object           object  object 
+2026/06/30 18:23:30  -Verified: T      T     T     T        T        T      T        T        T       T       T       T       T       T     T      NA               NA      NA     
+2026/06/30 18:23:30  -Target columns: ['BETA']
+2026/06/30 18:23:30     Filling BETA from OR...
+2026/06/30 18:23:30   [Round 1] Filled: ['BETA']
+2026/06/30 18:23:30   [Round 1] All columns filled!
+2026/06/30 18:23:30  -Successfully filled all requested columns.
+2026/06/30 18:23:30 Finished filling data using existing columns.
+2026/06/30 18:23:30 Start to reorder the columns ...(v4.1.9)
+2026/06/30 18:23:30  -Reordering columns to    : SNPID,CHR,POS,EA,NEA,STATUS,REF,ALT,EAF,BETA,SE,OR,Z,P,N,TEST,PROVISIONAL_REF?,OMITTED,ERRCODE
+2026/06/30 18:23:30  -Time taken: 0.001s
+2026/06/30 18:23:30 Finished reordering the columns.

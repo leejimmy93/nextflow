@@ -1,0 +1,1 @@
+/home/sagemaker-user/nextflow/work/34/b5a453e86687c601b8ba689c72a750/locus_20_42758834.ld

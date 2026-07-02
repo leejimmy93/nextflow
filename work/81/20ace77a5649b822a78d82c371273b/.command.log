@@ -1,0 +1,95 @@
+2026/06/30 18:22:51 GWASLab v4.1.9 https://cloufield.github.io/gwaslab/
+2026/06/30 18:22:51 (C) 2022-2026, Yunye He, Kamatani Lab, GPL-3.0 license, gwaslab@gmail.com
+2026/06/30 18:22:51 Python version: 3.12.13 | packaged by conda-forge | (main, Mar  5 2026, 16:50:00) [GCC 14.3.0]
+2026/06/30 18:22:51 Start to load format from formatbook....
+2026/06/30 18:22:51  -plink2 format meta info:
+2026/06/30 18:22:51   - format_name  : plink2_glm_outputs
+2026/06/30 18:22:51   - format_source  : https://www.cog-genomics.org/plink/2.0/formats
+2026/06/30 18:22:51   - format_version  : PLINK 2.0 (doc revision 11 Mar 2026)
+2026/06/30 18:22:51   - format_cite_name  : PLINK 2.0
+2026/06/30 18:22:51   - format_description  : Union of columns across .glm.linear, .glm.logistic, and .glm.firth; full column sets are in formats/plink2_*.json.
+2026/06/30 18:22:51   - format_separator  : \t
+2026/06/30 18:22:51   - format_na  : .
+2026/06/30 18:22:51   - format_comment  : #
+2026/06/30 18:22:51   - format_header  :  True
+2026/06/30 18:22:51   - last_check_date  : 20260326
+2026/06/30 18:22:51  -plink2 to gwaslab format dictionary:
+2026/06/30 18:22:51   - plink2 keys: ID,#CHROM,CHROM,POS,REF,ALT,A1,OBS_CT,A1_FREQ,A1_CASE_FREQ,A1_CTRL_FREQ,BETA,LOG(OR)_SE,SE,T_STAT,Z_STAT,F_STAT,P,LOG10_P,MACH_R2,OR,L95,U95
+2026/06/30 18:22:51   - gwaslab values: SNPID,CHR,CHR,POS,REF,ALT,EA,N,EAF,EAF_CASE,EAF_CONTROL,BETA,SE,SE,T,Z,F,P,MLOG10P,INFO,OR,OR_95L,OR_95U
+2026/06/30 18:22:51 Start to initialize gl.Sumstats from pandas DataFrame ...
+2026/06/30 18:22:51  -Reading columns          : A1_FREQ,OR,ID,OBS_CT,Z_STAT,P,ALT,POS,A1,LOG(OR)_SE,#CHROM,REF
+2026/06/30 18:22:51  -Renaming columns to      : EAF,OR,SNPID,N,Z,P,ALT,POS,EA,SE,CHR,REF
+2026/06/30 18:22:51  -Current Dataframe shape : 1128732  x  16
+2026/06/30 18:22:52  -Initiating a status column: STATUS ...
+2026/06/30 18:22:52 #WARNING! Version of genomic coordinates is unknown for homo sapiens (build: 99)...
+2026/06/30 18:22:52  NEA not available: assigning REF to NEA...
+2026/06/30 18:22:52  -EA,REF and ALT columns are available: assigning NEA...
+2026/06/30 18:22:52  -For variants with EA == ALT : assigning REF to NEA ...
+2026/06/30 18:22:52  -For variants with EA != ALT : assigning ALT to NEA ...
+2026/06/30 18:22:52 Start to reorder the columns ...(v4.1.9)
+2026/06/30 18:22:52  -Reordering columns to    : SNPID,CHR,POS,EA,NEA,STATUS,REF,ALT,EAF,SE,OR,Z,P,N,TEST,PROVISIONAL_REF?,OMITTED,ERRCODE
+2026/06/30 18:22:52  -Time taken: 0.088s
+2026/06/30 18:22:52 Finished reordering the columns.
+2026/06/30 18:22:52  -Column  : SNPID  CHR   POS   EA       NEA      STATUS REF      ALT      EAF     SE      OR      Z       P       N     TEST   PROVISIONAL_REF? OMITTED ERRCODE
+2026/06/30 18:22:52  -DType   : object Int64 int64 category category int64  category category float64 float64 float64 float64 float64 int64 object object           object  object 
+2026/06/30 18:22:52  -Verified: T      T     T     T        T        T      T        T        T       T       T       T       T       T     T      NA               NA      NA     
+2026/06/30 18:22:52  -Current Dataframe memory usage: 125.94 MB
+2026/06/30 18:22:52 Finished loading data successfully!
+2026/06/30 18:22:52 Start to check SNPID/rsID ...(v4.1.9)
+2026/06/30 18:22:52  -Current Dataframe shape : 1128732 x 18 ; Memory usage: 125.94 MB
+2026/06/30 18:22:52  -Checking SNPID data type...
+2026/06/30 18:22:52  -Converted datatype for SNPID: object -> string
+2026/06/30 18:22:52  -Checking if SNPID contains NA strings :na,NA,Na,Nan,NaN,<NA>,null,NULL,#N/A,#VALUE!,N/A,n/a,missing,...
+2026/06/30 18:22:52  -Checking if SNPID is CHR:POS:NEA:EA...(separator: - ,: , _)
+2026/06/30 18:22:53  -Time taken: 0.929s
+2026/06/30 18:22:53 Finished checking SNPID/rsID.
+2026/06/30 18:22:53 Start to fix chromosome notation (CHR) ...(v4.1.9)
+2026/06/30 18:22:53  -Checking CHR data type...
+2026/06/30 18:22:53  -Variants with standardized chromosome notation: 1128732
+2026/06/30 18:22:53  -All CHR are already fixed...
+2026/06/30 18:22:54  -Time taken: 0.531s
+2026/06/30 18:22:54 Finished fixing chromosome notation (CHR).
+2026/06/30 18:22:54 Start to fix basepair positions (POS) ...(v4.1.9)
+2026/06/30 18:22:54  -Trying to convert datatype for POS: int64 -> Int64...
+2026/06/30 18:22:54  -Position bound:(0 , 250,000,000)
+2026/06/30 18:22:54  -No outlier variants were removed.
+2026/06/30 18:22:54  -Time taken: 0.200s
+2026/06/30 18:22:54 Finished fixing basepair positions (POS).
+2026/06/30 18:22:54 Start to fix alleles (EA and NEA) ...(v4.1.9)
+2026/06/30 18:22:54  -Converted all bases to string datatype and UPPERCASE
+2026/06/30 18:22:54  -All variants have valid alleles (EA and NEA are A/C/T/G, not NA, and different).
+2026/06/30 18:22:55  -Time taken: 1.146s
+2026/06/30 18:22:55 Finished fixing alleles (EA and NEA).
+2026/06/30 18:22:55 Start to perform sanity check for statistics ...(v4.1.9)
+2026/06/30 18:22:55  -Comparison tolerance for floats: 1e-07
+2026/06/30 18:22:55  -Checking if any columns are empty...
+2026/06/30 18:22:55  -Checking if 0 <= N <= 2147483647 : removed 0 variants.
+2026/06/30 18:22:55  -Checking if -1e-07 < EAF < 1.0000001 : removed 0 variants.
+2026/06/30 18:22:55   -Examples of invalid variants(SNPID): 1:15774:G:A,1:15777:A:G,1:57292:C:T,1:87360:C:T,1:625392:T:C ...
+2026/06/30 18:22:55   -Examples of invalid values (Z): NA,NA,NA,NA,NA ...
+2026/06/30 18:22:56  -Checking if -9999.0000001 < Z < 9999.0000001 : removed 220793 variants.
+2026/06/30 18:22:56  -Checking if -1e-07 < P < 1.0000001 : removed 0 variants.
+2026/06/30 18:22:56  -Checking if -1e-07 < SE < inf : removed 0 variants.
+2026/06/30 18:22:56  -Checking if -1e-07 < OR < 100.0000001 : removed 0 variants.
+2026/06/30 18:22:56  -Checking STATUS and converting STATUS to Int64....
+2026/06/30 18:22:56  -Removed 220793 variants with bad statistics in total.
+2026/06/30 18:22:56  -Time taken: 0.999s
+2026/06/30 18:22:56 Finished sanity check for statistics.
+2026/06/30 18:22:56 Start to check data consistency across columns ...(v4.1.9)
+2026/06/30 18:22:56  -Current Dataframe shape : 907939 x 18 ; Memory usage: 107.37 MB
+2026/06/30 18:22:56  -Tolerance: 0.001 (Relative) and 0.001 (Absolute)
+2026/06/30 18:22:56  -No availalbe columns for data consistency checking...Skipping...
+2026/06/30 18:22:56  -Time taken: 0.001s
+2026/06/30 18:22:56 Finished checking data consistency across columns.
+2026/06/30 18:22:56 Start to normalize indels ...(v4.1.9)
+2026/06/30 18:22:56  -Number of threads/cores to use: 1
+2026/06/30 18:22:56  -No available variants to normalize..
+2026/06/30 18:22:56  -Time taken: 0.019s
+2026/06/30 18:22:56 Finished normalizing indels.
+2026/06/30 18:22:56 Start to sort the genome coordinates ...(v4.1.9)
+2026/06/30 18:22:56  -Time taken: 0.270s
+2026/06/30 18:22:56 Finished sorting coordinates.
+2026/06/30 18:22:56 Start to reorder the columns ...(v4.1.9)
+2026/06/30 18:22:56  -Reordering columns to    : SNPID,CHR,POS,EA,NEA,STATUS,REF,ALT,EAF,SE,OR,Z,P,N,TEST,PROVISIONAL_REF?,OMITTED,ERRCODE
+2026/06/30 18:22:56  -Time taken: 0.053s
+2026/06/30 18:22:56 Finished reordering the columns.

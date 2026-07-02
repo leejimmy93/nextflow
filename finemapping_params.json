@@ -1,0 +1,11 @@
+{
+  "sumstats": "/path/to/gwas/1kgeas.B1.glm.firth",
+  "genotype_prefix": "/path/to/genotypes/1KG.EAS.auto.snp.norm.nodup.split.rare002.common015.missing",
+  "outdir": "finemapping_results",
+  "sig_threshold": 5e-8,
+  "window_size": 500000,
+  "coverage": 0.95,
+  "min_abs_corr": 0.5,
+  "L": 1,
+  "ref_genome": null
+}
