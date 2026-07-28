@@ -1,0 +1,62 @@
+version: 0.2
+
+# AWS CodeBuild buildspec for fine-mapping Docker images
+# This builds all three Docker images and pushes to ECR
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_ACCOUNT_ID: 335777049998
+    IMAGE_REPO_NAME_PREFIX: finemapping
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo Build images will be tagged as $IMAGE_TAG and latest
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - cd docker
+
+      - echo Building gwaslab image...
+      - docker build -t $IMAGE_REPO_NAME_PREFIX-gwaslab:$IMAGE_TAG -t $IMAGE_REPO_NAME_PREFIX-gwaslab:latest gwaslab/
+
+      - echo Building plink image...
+      - docker build -t $IMAGE_REPO_NAME_PREFIX-plink:$IMAGE_TAG -t $IMAGE_REPO_NAME_PREFIX-plink:latest plink/
+
+      - echo Building susie image...
+      - docker build -t $IMAGE_REPO_NAME_PREFIX-susie:$IMAGE_TAG -t $IMAGE_REPO_NAME_PREFIX-susie:latest susie/
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing images to ECR...
+
+      # Tag and push gwaslab
+      - docker tag $IMAGE_REPO_NAME_PREFIX-gwaslab:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-gwaslab:$IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME_PREFIX-gwaslab:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-gwaslab:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-gwaslab:$IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-gwaslab:latest
+
+      # Tag and push plink
+      - docker tag $IMAGE_REPO_NAME_PREFIX-plink:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-plink:$IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME_PREFIX-plink:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-plink:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-plink:$IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-plink:latest
+
+      # Tag and push susie
+      - docker tag $IMAGE_REPO_NAME_PREFIX-susie:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-susie:$IMAGE_TAG
+      - docker tag $IMAGE_REPO_NAME_PREFIX-susie:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-susie:latest
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-susie:$IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PREFIX-susie:latest
+
+      - echo All images pushed successfully
+
+artifacts:
+  files:
+    - '**/*'
