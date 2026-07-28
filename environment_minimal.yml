@@ -1,0 +1,35 @@
+name: gwas_tutorial
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # Core Python
+  - python=3.12
+  - pip
+
+  # GWAS and statistical genetics tools
+  - plink=1.90b7.7
+
+  # Python scientific stack
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - seaborn
+
+  # R and R-Python interface
+  - r-base=4.3
+  - rpy2=3.6
+
+  # Additional tools
+  - jupyter
+  - notebook
+  - ipykernel
+
+  # Pip packages (not available in conda)
+  - pip:
+    - gwaslab==4.1.9
+    - rpy2-robjects==3.6.5
+
+  # R packages (install separately via R)
+  # install.packages('susieR', repos='https://cloud.r-project.org/')
