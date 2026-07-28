@@ -1,5 +1,6 @@
 # Image for LD calculation (CALCULATE_LD)
-FROM mambaorg/micromamba:1.5.8
+# Force amd64: plink 1.9 has no arm64 bioconda build
+FROM --platform=linux/amd64 mambaorg/micromamba:1.5.8
 
 USER root
 RUN apt-get update && apt-get install -y \
@@ -9,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 USER $MAMBA_USER
 
 # Install PLINK 1.9
-RUN micromamba install -y -n base -c bioconda \
+RUN micromamba install -y -n base -c conda-forge -c bioconda \
     plink=1.90b6.21 \
     && micromamba clean --all --yes
 

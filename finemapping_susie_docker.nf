@@ -29,7 +29,7 @@ params.version = "latest"           // Docker image version tag
  * Process 1: Load and QC summary statistics
  */
 process LOAD_SUMSTATS {
-    container "${params.registry}-gwaslab:${params.version}"
+    container "${params.registry}/gwaslab:${params.version}"
     publishDir "${params.outdir}/qc", mode: 'copy'
 
     input:
@@ -74,7 +74,7 @@ process LOAD_SUMSTATS {
  * Process 2: Extract lead variants (genome-wide significant loci)
  */
 process EXTRACT_LEADS {
-    container "${params.registry}-gwaslab:${params.version}"
+    container "${params.registry}/gwaslab:${params.version}"
     publishDir "${params.outdir}/leads", mode: 'copy'
 
     input:
@@ -116,7 +116,7 @@ process EXTRACT_LEADS {
  * Process 3: Define locus regions around each lead variant
  */
 process DEFINE_LOCI {
-    container "${params.registry}-gwaslab:${params.version}"
+    container "${params.registry}/gwaslab:${params.version}"
     tag "CHR${chrom}:${pos}"
 
     input:
@@ -162,7 +162,7 @@ process DEFINE_LOCI {
  * Process 4: Calculate LD matrix using PLINK
  */
 process CALCULATE_LD {
-    container "${params.registry}-plink:${params.version}"
+    container "${params.registry}/plink:${params.version}"
     tag "CHR${chrom}:${pos}"
 
     input:
@@ -191,7 +191,7 @@ process CALCULATE_LD {
  * Process 5: Run SuSiE fine-mapping
  */
 process RUN_SUSIE {
-    container "${params.registry}-susie:${params.version}"
+    container "${params.registry}/susie:${params.version}"
     tag "CHR${chrom}:${pos}"
     publishDir "${params.outdir}/finemapping", mode: 'copy', pattern: "*.{tsv,png}"
 
@@ -330,7 +330,7 @@ process RUN_SUSIE {
  * Process 6: Summarize all results
  */
 process SUMMARIZE_RESULTS {
-    container "${params.registry}-susie:${params.version}"
+    container "${params.registry}/susie:${params.version}"
     publishDir "${params.outdir}/summary", mode: 'copy'
 
     input:

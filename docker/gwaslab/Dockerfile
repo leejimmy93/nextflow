@@ -23,9 +23,10 @@ RUN micromamba install -y -n base -c conda-forge -c bioconda \
     && micromamba clean --all --yes
 
 # Install gwaslab via pip (not available in conda)
+ENV PATH="/opt/conda/bin:$PATH"
+ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
 RUN pip install --no-cache-dir gwaslab
 
-ENV PATH="/opt/conda/bin:$PATH"
 WORKDIR /work
 
 # Test that gwaslab imports correctly
