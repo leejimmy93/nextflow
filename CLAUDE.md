@@ -232,11 +232,82 @@ nextflow run finemapping_susie_docker.nf \
   --outdir finemapping_results_docker
 ```
 
+## Local Mac Setup (Apple Silicon / M1+)
+
+### Java 17 Installation (no sudo, no Homebrew)
+macOS ships Java 11 (Corretto) by default; Nextflow requires Java 17+. Install Corretto 17 as a tar.gz to home directory:
+
+```bash
+curl -L https://corretto.aws/downloads/latest/amazon-corretto-17-aarch64-macos-jdk.tar.gz | tar -xz -C ~/
+# Extracted to ~/amazon-corretto-17.jdk (NOT ~/jdk-17 — the mv step is unreliable)
+```
+
+Add to `~/.zshrc`:
+```bash
+export JAVA_HOME=$HOME/amazon-corretto-17.jdk/Contents/Home
+export PATH=$HOME/bin:$PATH
+```
+
+### Nextflow Installation (no Homebrew)
+```bash
+export JAVA_HOME=~/amazon-corretto-17.jdk/Contents/Home
+curl -s https://get.nextflow.io | bash
+mkdir -p ~/bin && mv nextflow ~/bin/
+```
+
+### Running the Docker Pipeline Locally
+```bash
+export JAVA_HOME=~/amazon-corretto-17.jdk/Contents/Home
+export PATH=$HOME/bin:$PATH
+nextflow run finemapping_susie_docker.nf \
+  -c nextflow.docker.config \
+  --sumstats /Users/rli/Desktop/nextflow/testdata/1kgeas.B1.glm.firth \
+  --genotype_prefix /Users/rli/Desktop/nextflow/testdata/genotypes/1KG.EAS.auto.snp.norm.nodup.split.rare002.common015.missing \
+  --outdir /Users/rli/Desktop/nextflow/finemapping_results_docker
+```
+
+- No `-profile` flag needed for local runs (defaults to `standard` / local executor)
+- Sumstats file must be uncompressed — if `.gz`, run `gunzip -k` first
+- Docker must be running; images are pulled from Docker Hub on first run and cached locally
+
+### Docker Images
+
+Three images are used by the pipeline:
+- `nextflow/gwaslab:latest` — LOAD_SUMSTATS, EXTRACT_LEADS, DEFINE_LOCI
+- `nextflow/plink:latest` — CALCULATE_LD
+- `nextflow/susie:latest` — RUN_SUSIE, SUMMARIZE_RESULTS
+
+These were built locally and pushed to both **Docker Hub** (public) and **ECR** (private, account 335777049998):
+- ECR base URL: `335777049998.dkr.ecr.us-east-1.amazonaws.com`
+- ECR repos: `nextflow/gwaslab`, `nextflow/plink`, `nextflow/susie`
+
+The config automatically switches to ECR when using `-profile awsbatch` (line 79 of `nextflow.docker.config`).
+
+### Pushing Images to ECR (from SageMaker)
+```bash
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 335777049998.dkr.ecr.us-east-1.amazonaws.com
+aws ecr create-repository --repository-name nextflow/gwaslab --region us-east-1  # one-time
+aws ecr create-repository --repository-name nextflow/plink --region us-east-1    # one-time
+aws ecr create-repository --repository-name nextflow/susie --region us-east-1    # one-time
+docker tag nextflow/gwaslab:latest 335777049998.dkr.ecr.us-east-1.amazonaws.com/nextflow/gwaslab:latest
+docker tag nextflow/plink:latest 335777049998.dkr.ecr.us-east-1.amazonaws.com/nextflow/plink:latest
+docker tag nextflow/susie:latest 335777049998.dkr.ecr.us-east-1.amazonaws.com/nextflow/susie:latest
+docker push 335777049998.dkr.ecr.us-east-1.amazonaws.com/nextflow/gwaslab:latest
+docker push 335777049998.dkr.ecr.us-east-1.amazonaws.com/nextflow/plink:latest
+docker push 335777049998.dkr.ecr.us-east-1.amazonaws.com/nextflow/susie:latest
+```
+
+Note: Local Mac AWS credentials (`BedrockOktaFederatedRole`, account 381094636682) do NOT have ECR permissions — push must be done from SageMaker.
+
+### Known DSL2 Fix: workflow.onComplete placement
+`workflow.onComplete {}` must be inside the `workflow {}` block in DSL2. Placing it outside causes `Script compilation failed`. If no completion logging is needed, simply remove the block — Nextflow prints completion status natively.
+
 ## Key Notes
 
 - Nextflow's `-log` flag is not a valid option; logs are written to `.nextflow.log` in the working directory automatically
 - The AWS IAM role `ecsTaskExecutionRole` is used by Batch workers; the SageMaker user account does not have `iam:GetRole` permissions to inspect it directly
-- Nextflow version in use: 26.04.4
+- Nextflow version in use: 26.04.6 (updated from 26.04.4)
 - nf-core/sarek version pinned to: 3.5.1
 - Python version in gwas_tutorial: 3.12.13
 - Critical: Always verify which conda environment is actually being used by checking error traces
+- Local Mac AWS credentials are on account 381094636682; SageMaker/ECR/Batch are on account 335777049998

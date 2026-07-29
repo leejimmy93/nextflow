@@ -1,0 +1,14 @@
+# Nextflow work directories and logs
+work/
+.nextflow/
+.nextflow.log*
+
+# Pipeline outputs
+finemapping_results*/
+results/
+
+# Test data
+testdata/
+
+# macOS
+.DS_Store

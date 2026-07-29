@@ -456,17 +456,4 @@ workflow {
 
     // Step 7: Summarize all results
     SUMMARIZE_RESULTS(RUN_SUSIE.out.results.map { it[2] }.collect())
-
-    // On completion handler
-    workflow.onComplete {
-        log.info """
-        =================================================================
-        Pipeline completed at: ${workflow.complete}
-        Duration            : ${workflow.duration}
-        Success             : ${workflow.success}
-        Work directory      : ${workflow.workDir}
-        Exit status         : ${workflow.exitStatus}
-        =================================================================
-        """
-    }
 }
